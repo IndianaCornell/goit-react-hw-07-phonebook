@@ -1,8 +1,7 @@
 import { Formik } from 'formik';
-import { nanoid } from 'nanoid';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/operations';
+import { postContact } from 'redux/operations';
 
 import {
   StyledForm,
@@ -20,7 +19,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 export const ContactForm = () => {
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.contacts.items);
   const dispatch = useDispatch();
 
   const toAdd = newContact => {
@@ -35,7 +34,7 @@ export const ContactForm = () => {
     if (contacts.find(contact => contact.number === newContact.number)) {
       return alert(`${newContact.number} is already in contacts`);
     }
-    dispatch(addContact({ ...newContact, id: nanoid() }));
+    dispatch(postContact({ ...newContact }));
   };
 
   return (
